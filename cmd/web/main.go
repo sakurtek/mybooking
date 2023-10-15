@@ -11,8 +11,10 @@ import (
 	"github.com/alexedwards/scs/v2"
 )
 
+// untuk portnumber
 const portNumber = ":8080"
 
+// untuk mendefiniskan variabel confit.AppConfig
 var app config.AppConfig
 var sessionmanager *scs.SessionManager
 
