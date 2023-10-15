@@ -1,0 +1,25 @@
+{{template "base" .}}
+
+{{define "content"}}
+    Data Mahasiswa: 
+    {{range .MyKaryawan}}
+    <p>
+        <strong><h2>{{.NamaKaryawan}}</h2></strong>
+        {{.EmailKaryawan}} ({{.UmurKaryawan}}), 
+        Sal: {{.GajiBulanan}} <br />
+    </p>
+    {{end}}
+{{end}}
+
+
+{{define "contentnews"}}
+<p><strong><h2>Berita terbaru:</h2></strong> </p>
+{{range .MyNews}}
+    <br />
+    <hr />
+    <h2>{{.MyTitle}}</h2>
+    <h4><a href="/detail?id={{.GetID}}">{{.GetSummery}}</a><br />
+    (<i>{{.GetNama}}, {{.GetStatus}}</i>)
+    </h4>
+{{end}}
+{{end}}
