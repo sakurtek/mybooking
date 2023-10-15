@@ -1,6 +1,8 @@
 {{template "base" .}}
 
 {{define "content"}}
+    <img src="/static/images/woman-laptop.jpg" height="300" width="600">
+    <br />
     Data Mahasiswa: 
     {{range .MyKaryawan}}
     <p>
@@ -10,7 +12,6 @@
     </p>
     {{end}}
 {{end}}
-
 
 {{define "contentnews"}}
 <p><strong><h2>Berita terbaru:</h2></strong> </p>

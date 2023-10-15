@@ -21,5 +21,9 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/about", handlers.Repo.HandleAbout)
 	mux.Get("/detail", handlers.Repo.HandleNewsDetail)
 
+	/* TAMBAHKAN DISINI UNTUK MELOAD DATA STATIC: images, css, js dll */
+	fileserver := http.FileServer(http.Dir("./static/"))
+	mux.Handle("/static/*", http.StripPrefix("/static", fileserver))
+
 	return mux
 }
