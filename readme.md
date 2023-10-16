@@ -5,6 +5,6 @@ Pelatihan saya lakukan dibulan Oktober 2023
 Beberapa fungsi yang akan dibahas pada project ini adalah:
 
 - Build in Go Version 1.21.3 for windows
-- Uses tehe [chi router](github.com/go-chi/chi/v5)
+- Uses the [chi router](github.com/go-chi/chi/v5)
 - Uses Alex Edwards SCS Session Management
 - Uses Surf
