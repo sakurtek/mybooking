@@ -7,24 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css">
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
-    <style>
-        .my-footer {
-            height: 5em;
-            background-color: black;
-            margin-top: 2em;
-            padding: 1em;
-            color: #ffffff;
-        }
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css" />
 
-        .room-image {
-          width: 50%;
-        }
-
-        .redText {
-          color: red;
-        }
-
-    </style>
   </head>
   <body>
 
@@ -93,8 +77,6 @@
                 <button type="submit" class="btn btn-primary">Search Availability</button>
               </form>
 
-
-
           </div>
         </div>
 
@@ -135,8 +117,6 @@
         </div>
     </div>
 
-  
-
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
@@ -147,18 +127,22 @@
     <script>
       document.getElementById("colorButton").addEventListener("click", function(){
           //notify("This is a notify from notie", "success");
-          //notifyModal("title","<em>Hello, World!</em>", "success", "My Text for this Button")
-          attention.success();
-          attention.toast();
-          attention.message("hello javascript modul...");
+          //notifyModal("title","<em>Hello, World!</em>", "success", "My Text for this Button"
+          messageDialog.MessageToast({title:"Waddouww, gagal tersimpan.", 
+          icon: "warning"});
+
+         // messageDialog.MessageBox({title:"Data Berhasil disimpan",
+           //         text:"<em>Hi, Selamat ya data anda sudah tersimpan</em>", 
+             //       icon:"success"})    
       })
     </script>
 
 <script>
   // panggil fungsi prompo disini
-  let attention = Prompt();
+  let messageDialog = MessageDialog();
 
   // Example starter JavaScript for disabling form submissions if there are invalid fields
+  // ini contoh untuk validasi data
   (() => {
   'use strict'
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -177,12 +161,13 @@
   })
   })()
 
-  // ini untuk vanila js
+  // INI UNTUK VANILA JS UNTUK DATEPICKER
   const elem = document.getElementById('reservation-dates');
   const rangepicker = new DateRangePicker(elem, {
     format: "yyyy-mm-dd",
   });
 
+  // INI NOTIFIASKI DENGAN NOTIFIE
   function notify (msg, msgType) {
     notie.alert({
     type: msgType,
@@ -190,33 +175,51 @@
   })
   }
 
-  function notifyModal (title, text, icon, confirmButton) {
-    Swal.fire({
-      title: title,
-      html: text,
-      icon: icon,
-      confirmButtonText: confirmButton
-    })        
-  }
+  function MessageDialog () {
+    // TOAST MENGGUNAKAN SWEETALERT
+    let MessageToast = function(c) {
+      const {
+        title = "",
+        icon = "",
+        position = "top-end",
+      } = c;
 
+      const Toast = Swal.mixin({
+          toast: true,
+          title: title,
+          icon: icon,
+          position: position,
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
 
-  function Prompt() {
-    let toast = function() {
-      console.log ("click button and got toast")
+        Toast.fire({}) 
     }
 
-    let success = function() {
-      console.log ("click button and got success")
-    }
+    // menggunakan MODAL dari SWEETALERT
+    let MessageBox = function(c) {
+      const {
+        title= "",
+        text = "",
+        icon = "",
+      } = c;
 
-    let message = function(msg) {
-      console.log("Pesan dari sistim: ", msg)
+        Swal.fire({
+          title: title,
+          icon: icon,
+          html: text,
+          confirmButtonText: "Ok"
+        })   
     }
 
     return {
-      toast: toast,
-      success: success,
-      message: message,
+      MessageToast: MessageToast,
+      MessageBox: MessageBox,
     }
   }
 

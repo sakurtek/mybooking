@@ -1,0 +1,15 @@
+.my-footer {
+    height: 5em;
+    background-color: black;
+    margin-top: 2em;
+    padding: 1em;
+    color: #ffffff;
+}
+
+.room-image {
+  width: 50%;
+}
+
+.redText {
+  color: red;
+}
