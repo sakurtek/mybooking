@@ -75,7 +75,6 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Search Availability</button>
               </form>
-
           </div>
         </div>
 
@@ -85,19 +84,6 @@
                 &nbsp;&nbsp;
             </div>
         </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <p id="myParagraph">Hallo world</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <button type="submit" class="btn btn-primary" id="colorButton">Click Me</button>
-        </div>
-      </div>
     </div>
 
     <div class="container-fluid">
@@ -129,100 +115,95 @@
           //notifyModal("title","<em>Hello, World!</em>", "success", "My Text for this Button"
           messageDialog.MessageToast({title:"Waddouww, gagal tersimpan.", 
           icon: "warning"});
-
-         // messageDialog.MessageBox({title:"Data Berhasil disimpan",
-           //         text:"<em>Hi, Selamat ya data anda sudah tersimpan</em>", 
-             //       icon:"success"})    
       })
     </script>
 
-<script>
-  // panggil fungsi prompo disini
-  let messageDialog = MessageDialog();
+    <script>
+      // panggil fungsi prompo disini
+      let messageDialog = MessageDialog();
 
-  // Example starter JavaScript for disabling form submissions if there are invalid fields
-  // ini contoh untuk validasi data
-  (() => {
-  'use strict'
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      // ini contoh untuk validasi data
+      (() => {
+      'use strict'
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
 
-    // Loop over them and prevent submission
-      Array.from(forms).forEach(form => {
-      form.addEventListener('submit', event => {
-      if (!form.checkValidity()) {
-        event.preventDefault()
-        event.stopPropagation()
+        // Loop over them and prevent submission
+          Array.from(forms).forEach(form => {
+          form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+
+          form.classList.add('was-validated')
+        }, false)
+      })
+      })()
+
+      // INI UNTUK VANILA JS UNTUK DATEPICKER
+      const elem = document.getElementById('reservation-dates');
+      const rangepicker = new DateRangePicker(elem, {
+        format: "yyyy-mm-dd",
+      });
+
+      // INI NOTIFIASKI DENGAN NOTIFIE
+      function notify (msg, msgType) {
+        notie.alert({
+        type: msgType,
+        text: msg,
+      })
       }
 
-      form.classList.add('was-validated')
-    }, false)
-  })
-  })()
+      function MessageDialog () {
+        // TOAST MENGGUNAKAN SWEETALERT
+        let MessageToast = function(c) {
+          const {
+            title = "",
+            icon = "",
+            position = "top-end",
+          } = c;
 
-  // INI UNTUK VANILA JS UNTUK DATEPICKER
-  const elem = document.getElementById('reservation-dates');
-  const rangepicker = new DateRangePicker(elem, {
-    format: "yyyy-mm-dd",
-  });
+          const Toast = Swal.mixin({
+              toast: true,
+              title: title,
+              icon: icon,
+              position: position,
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
 
-  // INI NOTIFIASKI DENGAN NOTIFIE
-  function notify (msg, msgType) {
-    notie.alert({
-    type: msgType,
-    text: msg,
-  })
-  }
+            Toast.fire({}) 
+        }
 
-  function MessageDialog () {
-    // TOAST MENGGUNAKAN SWEETALERT
-    let MessageToast = function(c) {
-      const {
-        title = "",
-        icon = "",
-        position = "top-end",
-      } = c;
+        // menggunakan MODAL dari SWEETALERT
+        let MessageBox = function(c) {
+          const {
+            title= "",
+            text = "",
+            icon = "",
+          } = c;
 
-      const Toast = Swal.mixin({
-          toast: true,
-          title: title,
-          icon: icon,
-          position: position,
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-          }
-        })
+            Swal.fire({
+              title: title,
+              icon: icon,
+              html: text,
+              confirmButtonText: "Ok"
+            })   
+        }
 
-        Toast.fire({}) 
-    }
+        return {
+          MessageToast: MessageToast,
+          MessageBox: MessageBox,
+        }
+      }
 
-    // menggunakan MODAL dari SWEETALERT
-    let MessageBox = function(c) {
-      const {
-        title= "",
-        text = "",
-        icon = "",
-      } = c;
-
-        Swal.fire({
-          title: title,
-          icon: icon,
-          html: text,
-          confirmButtonText: "Ok"
-        })   
-    }
-
-    return {
-      MessageToast: MessageToast,
-      MessageBox: MessageBox,
-    }
-  }
-
-</script>
-
+      </script>
   </body>
 </html>

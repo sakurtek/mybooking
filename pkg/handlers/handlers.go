@@ -7,7 +7,6 @@ import (
 	"strconv"
 
 	"github.com/sakurtek/goserver/bookingremyconcept/pkg/config"
-	"github.com/sakurtek/goserver/bookingremyconcept/pkg/model"
 	"github.com/sakurtek/goserver/bookingremyconcept/pkg/modelproc"
 )
 
@@ -39,8 +38,8 @@ func ViewTemplate(maintemplate string) (*template.Template, error) {
 	mytemplate, err := template.ParseFiles(
 		maintemplate,
 		"templates/base.layout.gohtml",
-		"templates/header.layout.gohtml",
-		"templates/footer.layout.gohtml",
+		//"templates/header.layout.gohtml",
+		//"templates/footer.layout.gohtml",
 	)
 
 	return mytemplate, err
@@ -48,54 +47,25 @@ func ViewTemplate(maintemplate string) (*template.Template, error) {
 
 func (m *Repository) HandleHome(w http.ResponseWriter, r *http.Request) {
 	//get session
-	remoteIP := r.RemoteAddr
-	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
-	m.App.Session.Put(r.Context(), "userID", "sakur.stendy@gmail.com")
-
-	MyIndexData := model.DataStruk{
-		MyID:       model.SessionProperty{}, // kosoong
-		MyKaryawan: modelproc.GetDataKaryawan(),
-		MyNews:     modelproc.GetOnlineNews(),
-	}
-
 	mytemplate, _ = ViewTemplate("templates/home.page.gohtml")
 
-	err := mytemplate.Execute(w, MyIndexData)
+	err := mytemplate.Execute(w, nil)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
 func (m *Repository) HandleAbout(w http.ResponseWriter, r *http.Request) {
-	remoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
-	userID := m.App.Session.GetString(r.Context(), "userID")
-
-	myStringMap := model.SessionProperty{
-		LabelName: "Hello, again.",
-		Status:    "Data untuk About page",
-		RemoteIP:  remoteIP,
-		UserID:    userID,
-	}
 
 	mytemplate, _ = ViewTemplate("templates/about.page.gohtml")
 
-	err := mytemplate.Execute(w, myStringMap)
+	err := mytemplate.Execute(w, nil)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
 func (m *Repository) HandleNewsDetail(w http.ResponseWriter, r *http.Request) {
-
-	remoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
-	userID := m.App.Session.GetString(r.Context(), "userID")
-
-	myStringMap := model.SessionProperty{
-		LabelName: "Hello, again.",
-		Status:    "Data untuk About page",
-		RemoteIP:  remoteIP,
-		UserID:    userID,
-	}
 
 	var IDExist bool // buat status data yang dicari
 
@@ -105,14 +75,6 @@ func (m *Repository) HandleNewsDetail(w http.ResponseWriter, r *http.Request) {
 	idint, _ := strconv.Atoi(idstr) // conversi string ke int
 
 	mytemplate, _ = ViewTemplate("templates/detail.page.gohtml")
-
-	// membuat variabel dari tipe data struk NewsDetail
-	// untuk memasukkan ID
-	mynewdetail := model.NewsDetail{
-		IDParam: idint,
-		MyNews:  modelproc.GetOnlineNews(),
-		MyID:    myStringMap,
-	}
 
 	/*
 		INI CONTOH MENCARI ID TAPI INI MASIH MENGGUNAKAN DATA
@@ -136,12 +98,62 @@ func (m *Repository) HandleNewsDetail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if IDExist {
-		err := mytemplate.Execute(w, mynewdetail)
+		err := mytemplate.Execute(w, nil)
 		if err != nil {
 			log.Println(err)
 		}
 	} else {
 		log.Println("Redirect")
 		http.Redirect(w, r, "/", http.StatusFound)
+	}
+}
+
+func (m *Repository) HandleContact(w http.ResponseWriter, r *http.Request) {
+
+	mytemplate, _ = ViewTemplate("templates/contact.page.gohtml")
+
+	err := mytemplate.Execute(w, nil)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func (m *Repository) HandleGenerals(w http.ResponseWriter, r *http.Request) {
+
+	mytemplate, _ = ViewTemplate("templates/generals.page.gohtml")
+
+	err := mytemplate.Execute(w, nil)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func (m *Repository) HandleMajors(w http.ResponseWriter, r *http.Request) {
+
+	mytemplate, _ = ViewTemplate("templates/majors.page.gohtml")
+
+	err := mytemplate.Execute(w, nil)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func (m *Repository) HandleMakeReservation(w http.ResponseWriter, r *http.Request) {
+
+	mytemplate, _ = ViewTemplate("templates/make-reservation.page.gohtml")
+
+	err := mytemplate.Execute(w, nil)
+	if err != nil {
+		log.Println(err)
+	}
+}
+
+func (m *Repository) HandleSearchAvailability(w http.ResponseWriter, r *http.Request) {
+
+	mytemplate, _ = ViewTemplate("templates/search-availability.page.gohtml")
+
+	err := mytemplate.Execute(w, nil)
+	if err != nil {
+		log.Println(err)
 	}
 }

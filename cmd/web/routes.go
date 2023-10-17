@@ -19,7 +19,13 @@ func routes(app *config.AppConfig) http.Handler {
 
 	mux.Get("/", handlers.Repo.HandleHome)
 	mux.Get("/about", handlers.Repo.HandleAbout)
+	mux.Get("/contact", handlers.Repo.HandleContact)
 	mux.Get("/detail", handlers.Repo.HandleNewsDetail)
+	mux.Get("/generals-quarters", handlers.Repo.HandleGenerals)
+	mux.Get("/majors-suite", handlers.Repo.HandleMajors)
+	mux.Get("/search-availability", handlers.Repo.HandleSearchAvailability)
+
+	mux.Get("/make-reservation", handlers.Repo.HandleMakeReservation)
 
 	/* TAMBAHKAN DISINI UNTUK MELOAD DATA STATIC: images, css, js dll */
 	fileserver := http.FileServer(http.Dir("./static/"))
