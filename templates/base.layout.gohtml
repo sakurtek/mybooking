@@ -85,15 +85,6 @@
     {{end}}
 
     <script>
-      document.getElementById("colorButton").addEventListener("click", function(){
-          //notify("This is a notify from notie", "success");
-          //notifyModal("title","<em>Hello, World!</em>", "success", "My Text for this Button")
-          messageDialog.MessageToast({title:"Waddouww, gagal tersimpan.", 
-          icon: "warning"});
-      })
-    </script>
-
-    <script>
       // panggil fungsi prompo disini
       let messageDialog = MessageDialog();
 
@@ -116,20 +107,6 @@
         }, false)
       })
       })()
-
-      // INI UNTUK VANILA JS UNTUK DATEPICKER
-      const elem = document.getElementById('reservation-dates');
-      const rangepicker = new DateRangePicker(elem, {
-        format: "yyyy-mm-dd",
-      });
-
-      // INI NOTIFIASKI DENGAN NOTIFIE
-      function notify (msg, msgType) {
-        notie.alert({
-        type: msgType,
-        text: msg,
-      })
-      }
 
       function MessageDialog () {
         // TOAST MENGGUNAKAN SWEETALERT

@@ -8,7 +8,8 @@
             <h1 class="mt-4">Search for Availability</h1>
 
               <!-- FORM -->
-              <form action="#" method="get" class="needs-validation" novalidate>
+              <form action="/search-availability" method="post" class="needs-validation" novalidate>
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
                 <div id="reservation-dates">
                   <div class="row">
                     <div class="col-sm mb-3">
@@ -38,4 +39,14 @@
         </div>
     </div>
     
+{{end}}
+
+{{define "js"}}
+<script>
+// INI UNTUK VANILA JS UNTUK DATEPICKER
+      const elem = document.getElementById('reservation-dates');
+      const rangepicker = new DateRangePicker(elem, {
+        format: "yyyy-mm-dd",
+      });
+</script>
 {{end}}
