@@ -32,9 +32,7 @@ func main() {
 	/* SIMPAN sessionmanager KE config.AppConfig */
 	app.Session = sessionmanager
 
-	/* pelajari ini dengan baik karena dengan dua fungsi ini
-	Penggunaan SESSION berhasil
-	*/
+	/* pelajari ini dengan baik karena dengan dua fungsi ini Penggunaan SESSION berhasil */
 	// Penting ini----
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandler(repo)
