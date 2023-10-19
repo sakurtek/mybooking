@@ -192,7 +192,7 @@ func (m *Repository) HandlePostSearchAvailability(w http.ResponseWriter, r *http
 	dateChceck := DataCheckAvailability{
 		StartDate:  mStart,
 		EndDate:    mEnd,
-		StatusInfo: true,
+		StatusInfo: false,
 	}
 
 	log.Println(mStart, mEnd)
