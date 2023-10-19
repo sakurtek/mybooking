@@ -184,13 +184,15 @@ func (m *Repository) HandlePostSearchAvailability(w http.ResponseWriter, r *http
 	mEnd := r.Form.Get("end")
 
 	type DataCheckAvailability struct {
-		StartDate string
-		EndDate   string
+		StartDate  string
+		EndDate    string
+		StatusInfo bool
 	}
 
 	dateChceck := DataCheckAvailability{
-		StartDate: mStart,
-		EndDate:   mEnd,
+		StartDate:  mStart,
+		EndDate:    mEnd,
+		StatusInfo: true,
 	}
 
 	log.Println(mStart, mEnd)

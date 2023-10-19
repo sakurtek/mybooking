@@ -7,3 +7,15 @@
     Tanggal akhir: {{.EndDate}}
     </p>
 {{end}}
+
+{{define "js"}}
+    <script>
+        {{if eq .StatusInfo "true"}}
+            messageDialog.MessageToast({
+                title: "Data berhasil ditambahkan",
+                icon: "success",
+            });
+        {{else}}
+        {{end}}
+    </script>
+{[end]}
