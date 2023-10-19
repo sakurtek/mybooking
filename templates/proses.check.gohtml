@@ -1,21 +1,32 @@
 {{template "base" .}}
 
 {{define "content"}}
-    <p>
-    Tanggal awal: {{.StartDate}}
-    <br />
-    Tanggal akhir: {{.EndDate}}
-    </p>
+    {{if eq .StatusInfo true}}
+        <p>
+        Tanggal awal: {{.StartDate}}
+        <br />
+        Tanggal akhir: {{.EndDate}}
+        </p>
+    {{end}}
 {{end}}
 
 {{define "js"}}
-    <script>
-        {{if eq .StatusInfo "true"}}
-            messageDialog.MessageToast({
-                title: "Data berhasil ditambahkan",
-                icon: "success",
-            });
-        {{else}}
+    <script>        
+        {{if eq .StatusInfo true}}
+            Swal.fire({
+                title: 'Data anda berhsil tersimpan',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Save',
+                denyButtonText: `Don't save`,
+                }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    Swal.fire('Saved!', '', 'success')
+                } else if (result.isDenied) {
+                    Swal.fire('Changes are not saved', '', 'info')
+                }
+            })
         {{end}}
     </script>
-{[end]}
+{{end}}
