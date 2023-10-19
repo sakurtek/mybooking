@@ -1,0 +1,19 @@
+{{template "base" .}}
+
+{{define "content"}}
+<p>
+{{$idparam := .IDParam}}
+{{range .MyNews}}
+    {{if eq $idparam .GetID}}
+        <h2>{{.GetTitle}}</h2><br />
+        {{.GetDesc}}<br /><br />
+        Penulis: {{.GetNama}}<br />
+        Status: {{.GetStatus}}
+        <br />
+    {{end}}
+{{end}}
+{{with .MyID}}
+UserID : {{.UserID}} | {{.RemoteIP}}
+{{end}}
+</p>
+{{end}}

@@ -1,0 +1,7 @@
+{{template "base" .}}
+
+{{define "content"}}
+    <p>
+    ini adalah content personal untuk halaman about us.
+    </p>
+{{end}}

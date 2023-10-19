@@ -41,7 +41,7 @@ func ViewTemplate(maintemplate string) (*template.Template, error) {
 
 	mytemplate, err := template.ParseFiles(
 		maintemplate,
-		"templates/base.layout.gohtml",
+		"templates/base.layout.sakur",
 		//"templates/header.layout.gohtml",
 		//"templates/footer.layout.gohtml",
 	)
@@ -58,7 +58,7 @@ func AddLikeDefaultData(td *model.TemplateData, r *http.Request) *model.Template
 
 func (m *Repository) HandleHome(w http.ResponseWriter, r *http.Request) {
 	//get session
-	mytemplate, _ = ViewTemplate("templates/home.page.gohtml")
+	mytemplate, _ = ViewTemplate("templates/home.page.sakur")
 
 	//td := AddLikeDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, nil)
@@ -69,7 +69,7 @@ func (m *Repository) HandleHome(w http.ResponseWriter, r *http.Request) {
 
 func (m *Repository) HandleAbout(w http.ResponseWriter, r *http.Request) {
 
-	mytemplate, _ = ViewTemplate("templates/about.page.gohtml")
+	mytemplate, _ = ViewTemplate("templates/about.page.sakur")
 
 	//td := AddLikeDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, nil)
@@ -87,7 +87,7 @@ func (m *Repository) HandleNewsDetail(w http.ResponseWriter, r *http.Request) {
 	idstr := q.Get("id")
 	idint, _ := strconv.Atoi(idstr) // conversi string ke int
 
-	mytemplate, _ = ViewTemplate("templates/detail.page.gohtml")
+	mytemplate, _ = ViewTemplate("templates/detail.page.sakur")
 
 	/*
 		INI CONTOH MENCARI ID TAPI INI MASIH MENGGUNAKAN DATA
@@ -124,7 +124,7 @@ func (m *Repository) HandleNewsDetail(w http.ResponseWriter, r *http.Request) {
 
 func (m *Repository) HandleContact(w http.ResponseWriter, r *http.Request) {
 
-	mytemplate, _ = ViewTemplate("templates/contact.page.gohtml")
+	mytemplate, _ = ViewTemplate("templates/contact.page.sakur")
 
 	//td := AddLikeDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, nil)
@@ -135,7 +135,7 @@ func (m *Repository) HandleContact(w http.ResponseWriter, r *http.Request) {
 
 func (m *Repository) HandleGenerals(w http.ResponseWriter, r *http.Request) {
 
-	mytemplate, _ = ViewTemplate("templates/generals.page.gohtml")
+	mytemplate, _ = ViewTemplate("templates/generals.page.sakur")
 
 	//td := AddLikeDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, nil)
@@ -146,7 +146,7 @@ func (m *Repository) HandleGenerals(w http.ResponseWriter, r *http.Request) {
 
 func (m *Repository) HandleMajors(w http.ResponseWriter, r *http.Request) {
 
-	mytemplate, _ = ViewTemplate("templates/majors.page.gohtml")
+	mytemplate, _ = ViewTemplate("templates/majors.page.sakur")
 
 	//td := AddLikeDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, nil)
@@ -157,7 +157,7 @@ func (m *Repository) HandleMajors(w http.ResponseWriter, r *http.Request) {
 
 func (m *Repository) HandleMakeReservation(w http.ResponseWriter, r *http.Request) {
 
-	mytemplate, _ = ViewTemplate("templates/make-reservation.page.gohtml")
+	mytemplate, _ = ViewTemplate("templates/make-reservation.page.sakur")
 
 	td := AddLikeDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, td)
@@ -168,7 +168,7 @@ func (m *Repository) HandleMakeReservation(w http.ResponseWriter, r *http.Reques
 
 func (m *Repository) HandleSearchAvailability(w http.ResponseWriter, r *http.Request) {
 
-	mytemplate, _ = ViewTemplate("templates/search-availability.page.gohtml")
+	mytemplate, _ = ViewTemplate("templates/search-availability.page.sakur")
 
 	td := AddLikeDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, td)
@@ -192,14 +192,14 @@ func (m *Repository) HandlePostSearchAvailability(w http.ResponseWriter, r *http
 	dateChceck := DataCheckAvailability{
 		StartDate:  mStart,
 		EndDate:    mEnd,
-		StatusInfo: false,
+		StatusInfo: true,
 	}
 
 	log.Println(mStart, mEnd)
 	//w.Write([]byte(fmt.Sprintf("start date is %s and end date is %s", mStart, mEnd)))
 
 	// ambil data halaman proses untuk tes menampilkan data
-	mytemplate, _ := ViewTemplate("templates/proses.check.gohtml")
+	mytemplate, _ := ViewTemplate("templates/proses.check.sakur")
 
 	err := mytemplate.Execute(w, dateChceck)
 	if err != nil {

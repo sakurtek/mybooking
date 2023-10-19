@@ -12,7 +12,7 @@ import (
 )
 
 // untuk portnumber
-const portNumber = ":8080"
+const portNumber = ":2112"
 
 // untuk mendefiniskan variabel confit.AppConfig
 var app config.AppConfig

@@ -1,0 +1,33 @@
+{{template "base" .}}
+
+{{define "content"}}
+    {{if eq .StatusInfo true}}
+        <p>
+        Tanggal awal: {{.StartDate}}
+        <br />
+        Tanggal akhir: {{.EndDate}}
+        </p>
+    {{end}}
+{{end}}
+
+{{define "js"}}
+    <script>        
+        {{if eq .StatusInfo true}}
+            Swal.fire({
+                title: 'Data anda berhasil tersimpan',
+                icon: 'success',
+                showOkButton: true,
+                }).then((result) => {
+                    window.location.href = "/";
+            })
+        {{else}}
+            Swal.fire({
+                title: 'Gagal Tersimpan.',
+                icon: 'warning',
+                showOkButton: true,
+                }).then((result) => {
+                    window.location.href = "/";
+            })
+        {{end}}
+    </script>
+{{end}}
