@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/sakurtek/goserver/bookingremyconcept/pkg/config"
-	"github.com/sakurtek/goserver/bookingremyconcept/pkg/handlers"
+	"github.com/sakurtek/goserver/bookingremyconcept/internal/config"
+	"github.com/sakurtek/goserver/bookingremyconcept/internal/handlers"
 
 	"github.com/alexedwards/scs/v2"
 )
@@ -19,7 +19,6 @@ var app config.AppConfig
 var sessionmanager *scs.SessionManager
 
 func main() {
-
 	// UBAH INI MENJADI -TRUE- APABILA PRODUKSI ATAU SUDAH MAU DI DEPLOY KE SERVER
 	app.InProduction = false
 
@@ -38,7 +37,7 @@ func main() {
 	handlers.NewHandler(repo)
 	// Penting ini----
 
-	fmt.Println("Server running in localhost port: ", portNumber)
+	fmt.Println("Server running in localhost port", portNumber)
 
 	myserver := &http.Server{
 		Addr:    portNumber,

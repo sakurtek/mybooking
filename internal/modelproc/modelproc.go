@@ -1,6 +1,6 @@
 package modelproc
 
-import "github.com/sakurtek/goserver/bookingremyconcept/pkg/model"
+import "github.com/sakurtek/goserver/bookingremyconcept/internal/model"
 
 func GetOnlineNews() []model.Newsline {
 

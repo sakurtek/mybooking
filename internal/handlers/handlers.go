@@ -8,9 +8,9 @@ import (
 	"strconv"
 
 	"github.com/justinas/nosurf"
-	"github.com/sakurtek/goserver/bookingremyconcept/pkg/config"
-	"github.com/sakurtek/goserver/bookingremyconcept/pkg/model"
-	"github.com/sakurtek/goserver/bookingremyconcept/pkg/modelproc"
+	"github.com/sakurtek/goserver/bookingremyconcept/internal/config"
+	"github.com/sakurtek/goserver/bookingremyconcept/internal/model"
+	"github.com/sakurtek/goserver/bookingremyconcept/internal/modelproc"
 )
 
 var Repo *Repository
@@ -183,5 +183,24 @@ func (m *Repository) HandlePostSearchAvailability(w http.ResponseWriter, r *http
 	mStart := r.Form.Get("start")
 	mEnd := r.Form.Get("end")
 
-	w.Write([]byte(fmt.Sprintf("start date is %s and end date is %s", mStart, mEnd)))
+	type DataCheckAvailability struct {
+		StartDate string
+		EndDate   string
+	}
+
+	dateChceck := DataCheckAvailability{
+		StartDate: mStart,
+		EndDate:   mEnd,
+	}
+
+	log.Println(mStart, mEnd)
+	//w.Write([]byte(fmt.Sprintf("start date is %s and end date is %s", mStart, mEnd)))
+
+	// ambil data halaman proses untuk tes menampilkan data
+	mytemplate, _ := ViewTemplate("templates/proses.check.gohtml")
+
+	err := mytemplate.Execute(w, dateChceck)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
