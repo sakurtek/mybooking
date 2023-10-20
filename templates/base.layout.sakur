@@ -85,7 +85,7 @@
     {{end}}
 
     <script>
-      // panggil fungsi prompo disini
+      // panggil fungsi promp disini
       let messageDialog = MessageDialog();
 
       // Example starter JavaScript for disabling form submissions if there are invalid fields
