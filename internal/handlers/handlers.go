@@ -9,6 +9,7 @@ import (
 
 	"github.com/justinas/nosurf"
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/config"
+	"github.com/sakurtek/goserver/bookingremyconcept/internal/forms"
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/model"
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/modelproc"
 )
@@ -157,12 +158,62 @@ func (m *Repository) HandleMajors(w http.ResponseWriter, r *http.Request) {
 
 func (m *Repository) HandleMakeReservation(w http.ResponseWriter, r *http.Request) {
 
+	var emptyReservation model.Reservation
+	data := make(map[string]interface{})
+	data["reservation"] = emptyReservation
+
 	mytemplate, _ = ViewTemplate("templates/make-reservation.page.sakur")
 
-	td := AddLikeDefaultData(&model.TemplateData{}, r)
+	td := AddLikeDefaultData(&model.TemplateData{
+		Form: forms.New(nil),
+		Data: data,
+	}, r)
+
 	err := mytemplate.Execute(w, td)
 	if err != nil {
 		log.Println(err)
+	}
+}
+
+func (m *Repository) HandlePostMakeReservation(w http.ResponseWriter, r *http.Request) {
+	errparse := r.ParseForm()
+
+	if errparse != nil {
+		log.Println(errparse)
+		return
+	}
+
+	reservation := model.Reservation{
+		FirstName:   r.Form.Get("firstname"),
+		LastName:    r.Form.Get("lastname"),
+		Email:       r.Form.Get("email"),
+		PhoneNumber: r.Form.Get("phonenumber"),
+	}
+
+	form := forms.New(r.PostForm)
+
+	//form.Has("firstname", r)
+	form.Required("firstname", "lastname", "email")
+	form.MinLength("firstname", 3, r)
+	form.IsEmail("email")
+
+	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["reservation"] = reservation
+
+		mytemplate, _ = ViewTemplate("templates/make-reservation.page.sakur")
+
+		td := AddLikeDefaultData(&model.TemplateData{
+			Form: form,
+			Data: data,
+		}, r)
+
+		err := mytemplate.Execute(w, td)
+		if err != nil {
+			log.Println(err)
+		}
+
+		return
 	}
 }
 

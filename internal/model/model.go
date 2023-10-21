@@ -2,6 +2,8 @@ package model
 
 import (
 	"strings"
+
+	"github.com/sakurtek/goserver/bookingremyconcept/internal/forms"
 )
 
 type Personal struct {
@@ -135,4 +137,12 @@ type TemplateData struct {
 	Flash     string
 	Warning   string
 	Error     string
+	Form      *forms.Form
+}
+
+type Reservation struct {
+	FirstName   string
+	LastName    string
+	Email       string
+	PhoneNumber string
 }
