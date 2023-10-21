@@ -146,3 +146,11 @@ type Reservation struct {
 	Email       string
 	PhoneNumber string
 }
+
+// ini saya punya sendiri
+type DataCheckAvailability struct {
+	StartDate    string
+	EndDate      string
+	StatusProses bool // status ketika proses gagal atau sukses
+	StatusExist  bool // status apakah dikirim dari search-avli atau halaman lain
+}

@@ -29,6 +29,7 @@ func routes(app *config.AppConfig) http.Handler {
 
 	mux.Get("/make-reservation", handlers.Repo.HandleMakeReservation)
 	mux.Post("/make-reservation", handlers.Repo.HandlePostMakeReservation)
+	mux.Get("/reservation-summary", handlers.Repo.HandleReservationSummary)
 
 	/* TAMBAHKAN DISINI UNTUK MELOAD DATA STATIC: images, css, js dll */
 	fileserver := http.FileServer(http.Dir("./static/"))

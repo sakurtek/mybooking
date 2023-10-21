@@ -32,6 +32,7 @@ func NewRepo(a *config.AppConfig) *Repository {
 	}
 }
 
+// buat new handler
 func NewHandler(r *Repository) {
 	Repo = r
 }
@@ -53,6 +54,9 @@ func ViewTemplate(maintemplate string) (*template.Template, error) {
 // tambakhan fungsi untuk menamgahkan data
 // secara default untuk di eksekusi
 func AddLikeDefaultData(td *model.TemplateData, r *http.Request) *model.TemplateData {
+	// ditutorial app ini ada pada bagian render
+	// tpi disini saya mencoba menambahkan variabel baru app
+
 	td.CSRFToken = nosurf.Token(r)
 	return td
 }
@@ -61,8 +65,18 @@ func (m *Repository) HandleHome(w http.ResponseWriter, r *http.Request) {
 	//get session
 	mytemplate, _ = ViewTemplate("templates/home.page.sakur")
 
-	//td := AddLikeDefaultData(&model.TemplateData{}, r)
-	err := mytemplate.Execute(w, nil)
+	var emptydatacheck model.DataCheckAvailability
+
+	data := make(map[string]interface{})
+	data["dataCheck"] = emptydatacheck
+
+	td := AddLikeDefaultData(&model.TemplateData{
+		Data: data,
+	}, r)
+
+	fmt.Println(data)
+
+	err := mytemplate.Execute(w, td) // awalnya sya tidak pake, dan pake nil
 	if err != nil {
 		log.Println(err)
 	}
@@ -72,8 +86,8 @@ func (m *Repository) HandleAbout(w http.ResponseWriter, r *http.Request) {
 
 	mytemplate, _ = ViewTemplate("templates/about.page.sakur")
 
-	//td := AddLikeDefaultData(&model.TemplateData{}, r)
-	err := mytemplate.Execute(w, nil)
+	td := AddLikeDefaultData(&model.TemplateData{}, r)
+	err := mytemplate.Execute(w, td) // awlanya saya pake nil
 	if err != nil {
 		log.Println(err)
 	}
@@ -127,8 +141,8 @@ func (m *Repository) HandleContact(w http.ResponseWriter, r *http.Request) {
 
 	mytemplate, _ = ViewTemplate("templates/contact.page.sakur")
 
-	//td := AddLikeDefaultData(&model.TemplateData{}, r)
-	err := mytemplate.Execute(w, nil)
+	td := AddLikeDefaultData(&model.TemplateData{}, r)
+	err := mytemplate.Execute(w, td)
 	if err != nil {
 		log.Println(err)
 	}
@@ -138,8 +152,8 @@ func (m *Repository) HandleGenerals(w http.ResponseWriter, r *http.Request) {
 
 	mytemplate, _ = ViewTemplate("templates/generals.page.sakur")
 
-	//td := AddLikeDefaultData(&model.TemplateData{}, r)
-	err := mytemplate.Execute(w, nil)
+	td := AddLikeDefaultData(&model.TemplateData{}, r)
+	err := mytemplate.Execute(w, td)
 	if err != nil {
 		log.Println(err)
 	}
@@ -149,15 +163,14 @@ func (m *Repository) HandleMajors(w http.ResponseWriter, r *http.Request) {
 
 	mytemplate, _ = ViewTemplate("templates/majors.page.sakur")
 
-	//td := AddLikeDefaultData(&model.TemplateData{}, r)
-	err := mytemplate.Execute(w, nil)
+	td := AddLikeDefaultData(&model.TemplateData{}, r)
+	err := mytemplate.Execute(w, td)
 	if err != nil {
 		log.Println(err)
 	}
 }
 
 func (m *Repository) HandleMakeReservation(w http.ResponseWriter, r *http.Request) {
-
 	var emptyReservation model.Reservation
 	data := make(map[string]interface{})
 	data["reservation"] = emptyReservation
@@ -192,7 +205,6 @@ func (m *Repository) HandlePostMakeReservation(w http.ResponseWriter, r *http.Re
 
 	form := forms.New(r.PostForm)
 
-	//form.Has("firstname", r)
 	form.Required("firstname", "lastname", "email")
 	form.MinLength("firstname", 3, r)
 	form.IsEmail("email")
@@ -215,6 +227,9 @@ func (m *Repository) HandlePostMakeReservation(w http.ResponseWriter, r *http.Re
 
 		return
 	}
+
+	m.App.Session.Put(r.Context(), "reservation", reservation)
+	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
 }
 
 func (m *Repository) HandleSearchAvailability(w http.ResponseWriter, r *http.Request) {
@@ -234,26 +249,55 @@ func (m *Repository) HandlePostSearchAvailability(w http.ResponseWriter, r *http
 	mStart := r.Form.Get("start")
 	mEnd := r.Form.Get("end")
 
-	type DataCheckAvailability struct {
-		StartDate  string
-		EndDate    string
-		StatusInfo bool
+	dataCheck := model.DataCheckAvailability{
+		StartDate:    mStart,
+		EndDate:      mEnd,
+		StatusProses: true,
+		StatusExist:  true,
 	}
 
-	dateChceck := DataCheckAvailability{
-		StartDate:  mStart,
-		EndDate:    mEnd,
-		StatusInfo: true,
-	}
+	data := make(map[string]interface{})
+	data["dataCheck"] = dataCheck
 
-	log.Println(mStart, mEnd)
-	//w.Write([]byte(fmt.Sprintf("start date is %s and end date is %s", mStart, mEnd)))
+	fmt.Println(data)
+
+	td := AddLikeDefaultData(&model.TemplateData{
+		Data: data,
+	}, r)
 
 	// ambil data halaman proses untuk tes menampilkan data
-	mytemplate, _ := ViewTemplate("templates/proses.check.sakur")
+	//mytemplate, _ := ViewTemplate("templates/proses.check.sakur")
+	mytemplate, _ := ViewTemplate("templates/home.page.sakur")
 
-	err := mytemplate.Execute(w, dateChceck)
+	err := mytemplate.Execute(w, td)
 	if err != nil {
 		fmt.Println(err)
+	}
+}
+
+func (m *Repository) HandleReservationSummary(w http.ResponseWriter, r *http.Request) {
+
+	mytemplate, _ = ViewTemplate("templates/reservation-summary.page.sakur")
+
+	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(model.Reservation)
+
+	if !ok {
+		log.Println("Cannot get item from session")
+		m.App.Session.Put(r.Context(), "error", "Can't get reservation from session")
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["reservation"] = reservation
+
+	td := AddLikeDefaultData(&model.TemplateData{
+		Data: data,
+	}, r)
+
+	err := mytemplate.Execute(w, td)
+
+	if err != nil {
+		log.Println(err)
 	}
 }

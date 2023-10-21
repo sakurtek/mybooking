@@ -156,7 +156,35 @@
         }
       }
 
+
+      function notify(msg, msgType) {
+        notie.alert(
+          {
+            type: msgType,
+            text: msg,
+          }
+        )
+      }
+
+      
+      {{$dxinfo := index .Data "dataCheck"}}
+
+      {{if eq $dxinfo.StatusExist true}}
+        {{if eq $dxinfo.StatusProses true}}
+            messageDialog.MessageToast({
+              title: "Data Barhasil Disimpan",
+              icon: "success",
+            })
+        {{else}}
+             messageDialog.MessageToast({
+              title: "Data GAGAL Tersimpan",
+              icon: "warning",
+            })
+        {{end}}
+      {{end}}
+
       </script>
+      
     </body>
 </html>
 

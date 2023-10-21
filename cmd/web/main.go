@@ -1,12 +1,14 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/config"
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/handlers"
+	"github.com/sakurtek/goserver/bookingremyconcept/internal/model"
 
 	"github.com/alexedwards/scs/v2"
 )
@@ -19,6 +21,9 @@ var app config.AppConfig
 var sessionmanager *scs.SessionManager
 
 func main() {
+	// registserasi session
+	gob.Register(model.Reservation{})
+
 	// UBAH INI MENJADI -TRUE- APABILA PRODUKSI ATAU SUDAH MAU DI DEPLOY KE SERVER
 	app.InProduction = false
 

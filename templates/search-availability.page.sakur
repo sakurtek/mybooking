@@ -42,6 +42,7 @@
 {{end}}
 
 {{define "js"}}
+
 <script>
 // INI UNTUK VANILA JS UNTUK DATEPICKER
       const elem = document.getElementById('reservation-dates');
