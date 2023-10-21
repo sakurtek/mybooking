@@ -9,6 +9,7 @@ import (
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/config"
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/handlers"
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/model"
+	"github.com/sakurtek/goserver/bookingremyconcept/internal/render"
 
 	"github.com/alexedwards/scs/v2"
 )
@@ -41,6 +42,9 @@ func main() {
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandler(repo)
 	// Penting ini----
+
+	// pelajari kembali bagian ini
+	render.NewTemplates(&app)
 
 	fmt.Println("Server running in localhost port", portNumber)
 

@@ -12,7 +12,7 @@
   </head>
     <body>
 
-    <!--- MENU TOP BAR -->
+    <!--- MENU TOP BAR  -->
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Navbar</a>
@@ -156,17 +156,40 @@
         }
       }
 
-
       function notify(msg, msgType) {
         notie.alert(
           {
             type: msgType,
             text: msg,
+            overlay: "notie-overlay",
           }
         )
       }
 
-      
+      {{with .Error}}
+          //notify("{{.}}", "error")
+          messageDialog.MessageToast({
+              title: "{{.}}",
+              icon: "error",
+            })
+      {{end}}
+
+      {{with .Flash}}
+           messageDialog.MessageToast({
+              title: "{{.}}",
+              icon: "success",
+            })
+      {{end}}
+
+      {{with .Warning}}
+          messageDialog.MessageToast({
+              title: "{{.}}",
+              icon: "warning",
+            })
+      {{end}}
+    
+
+/*
       {{$dxinfo := index .Data "dataCheck"}}
 
       {{if eq $dxinfo.StatusExist true}}
@@ -182,9 +205,9 @@
             })
         {{end}}
       {{end}}
+      */
 
       </script>
-      
     </body>
 </html>
 

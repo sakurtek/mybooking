@@ -8,4 +8,11 @@ require (
 	github.com/justinas/nosurf v1.1.1
 )
 
-require github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
+require (
+	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
+	github.com/cespare/xxhash/v2 v2.1.2
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f
+	github.com/go-redis/redis/v8 v8.11.5
+)
+
+require github.com/nitishm/go-rejson/v4 v4.1.0 // indirect

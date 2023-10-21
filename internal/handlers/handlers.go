@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/justinas/nosurf"
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/config"
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/forms"
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/model"
 	"github.com/sakurtek/goserver/bookingremyconcept/internal/modelproc"
+	"github.com/sakurtek/goserver/bookingremyconcept/internal/render"
 )
 
 var Repo *Repository
@@ -51,16 +51,6 @@ func ViewTemplate(maintemplate string) (*template.Template, error) {
 	return mytemplate, err
 }
 
-// tambakhan fungsi untuk menamgahkan data
-// secara default untuk di eksekusi
-func AddLikeDefaultData(td *model.TemplateData, r *http.Request) *model.TemplateData {
-	// ditutorial app ini ada pada bagian render
-	// tpi disini saya mencoba menambahkan variabel baru app
-
-	td.CSRFToken = nosurf.Token(r)
-	return td
-}
-
 func (m *Repository) HandleHome(w http.ResponseWriter, r *http.Request) {
 	//get session
 	mytemplate, _ = ViewTemplate("templates/home.page.sakur")
@@ -70,7 +60,7 @@ func (m *Repository) HandleHome(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["dataCheck"] = emptydatacheck
 
-	td := AddLikeDefaultData(&model.TemplateData{
+	td := render.AddDefaultData(&model.TemplateData{
 		Data: data,
 	}, r)
 
@@ -86,7 +76,7 @@ func (m *Repository) HandleAbout(w http.ResponseWriter, r *http.Request) {
 
 	mytemplate, _ = ViewTemplate("templates/about.page.sakur")
 
-	td := AddLikeDefaultData(&model.TemplateData{}, r)
+	td := render.AddDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, td) // awlanya saya pake nil
 	if err != nil {
 		log.Println(err)
@@ -126,8 +116,8 @@ func (m *Repository) HandleNewsDetail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if IDExist {
-		//td := AddLikeDefaultData(&model.TemplateData{}, r)
-		err := mytemplate.Execute(w, nil)
+		td := render.AddDefaultData(&model.TemplateData{}, r)
+		err := mytemplate.Execute(w, td)
 		if err != nil {
 			log.Println(err)
 		}
@@ -141,7 +131,7 @@ func (m *Repository) HandleContact(w http.ResponseWriter, r *http.Request) {
 
 	mytemplate, _ = ViewTemplate("templates/contact.page.sakur")
 
-	td := AddLikeDefaultData(&model.TemplateData{}, r)
+	td := render.AddDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, td)
 	if err != nil {
 		log.Println(err)
@@ -152,7 +142,7 @@ func (m *Repository) HandleGenerals(w http.ResponseWriter, r *http.Request) {
 
 	mytemplate, _ = ViewTemplate("templates/generals.page.sakur")
 
-	td := AddLikeDefaultData(&model.TemplateData{}, r)
+	td := render.AddDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, td)
 	if err != nil {
 		log.Println(err)
@@ -163,7 +153,7 @@ func (m *Repository) HandleMajors(w http.ResponseWriter, r *http.Request) {
 
 	mytemplate, _ = ViewTemplate("templates/majors.page.sakur")
 
-	td := AddLikeDefaultData(&model.TemplateData{}, r)
+	td := render.AddDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, td)
 	if err != nil {
 		log.Println(err)
@@ -177,7 +167,7 @@ func (m *Repository) HandleMakeReservation(w http.ResponseWriter, r *http.Reques
 
 	mytemplate, _ = ViewTemplate("templates/make-reservation.page.sakur")
 
-	td := AddLikeDefaultData(&model.TemplateData{
+	td := render.AddDefaultData(&model.TemplateData{
 		Form: forms.New(nil),
 		Data: data,
 	}, r)
@@ -215,7 +205,7 @@ func (m *Repository) HandlePostMakeReservation(w http.ResponseWriter, r *http.Re
 
 		mytemplate, _ = ViewTemplate("templates/make-reservation.page.sakur")
 
-		td := AddLikeDefaultData(&model.TemplateData{
+		td := render.AddDefaultData(&model.TemplateData{
 			Form: form,
 			Data: data,
 		}, r)
@@ -236,7 +226,7 @@ func (m *Repository) HandleSearchAvailability(w http.ResponseWriter, r *http.Req
 
 	mytemplate, _ = ViewTemplate("templates/search-availability.page.sakur")
 
-	td := AddLikeDefaultData(&model.TemplateData{}, r)
+	td := render.AddDefaultData(&model.TemplateData{}, r)
 	err := mytemplate.Execute(w, td)
 	if err != nil {
 		log.Println(err)
@@ -245,25 +235,27 @@ func (m *Repository) HandleSearchAvailability(w http.ResponseWriter, r *http.Req
 
 func (m *Repository) HandlePostSearchAvailability(w http.ResponseWriter, r *http.Request) {
 
-	// cara mengambil form pada GO
-	mStart := r.Form.Get("start")
-	mEnd := r.Form.Get("end")
+	/*
+		// cara mengambil form pada GO
+		mStart := r.Form.Get("start")
+		mEnd := r.Form.Get("end")
 
-	dataCheck := model.DataCheckAvailability{
-		StartDate:    mStart,
-		EndDate:      mEnd,
-		StatusProses: true,
-		StatusExist:  true,
-	}
+		dataCheck := model.DataCheckAvailability{
+			StartDate:    mStart,
+			EndDate:      mEnd,
+			StatusProses: true,
+		}
 
-	data := make(map[string]interface{})
-	data["dataCheck"] = dataCheck
+		data := make(map[string]interface{})
+		data["dataCheck"] = dataCheck
+	*/
 
-	fmt.Println(data)
+	//fmt.Println(data)
 
-	td := AddLikeDefaultData(&model.TemplateData{
-		Data: data,
-	}, r)
+	// jika proses berhasil maka tambahkan ini
+	m.App.Session.Put(r.Context(), "flash", "Data BARHASIL ditambahkan.")
+
+	td := render.AddDefaultData(&model.TemplateData{}, r)
 
 	// ambil data halaman proses untuk tes menampilkan data
 	//mytemplate, _ := ViewTemplate("templates/proses.check.sakur")
@@ -282,16 +274,18 @@ func (m *Repository) HandleReservationSummary(w http.ResponseWriter, r *http.Req
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(model.Reservation)
 
 	if !ok {
-		log.Println("Cannot get item from session")
+		//log.Println("Cannot get item from session")
 		m.App.Session.Put(r.Context(), "error", "Can't get reservation from session")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
 
+	m.App.Session.Remove(r.Context(), "reservation")
+
 	data := make(map[string]interface{})
 	data["reservation"] = reservation
 
-	td := AddLikeDefaultData(&model.TemplateData{
+	td := render.AddDefaultData(&model.TemplateData{
 		Data: data,
 	}, r)
 
