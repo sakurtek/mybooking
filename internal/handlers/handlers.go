@@ -248,9 +248,9 @@ func (m *Repository) HandlePostSearchAvailability(w http.ResponseWriter, r *http
 
 		data := make(map[string]interface{})
 		data["dataCheck"] = dataCheck
-	*/
 
-	//fmt.Println(data)
+		//fmt.Println(data)
+	*/
 
 	// jika proses berhasil maka tambahkan ini
 	m.App.Session.Put(r.Context(), "flash", "Data BARHASIL ditambahkan.")

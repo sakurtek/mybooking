@@ -189,7 +189,9 @@
             })
       {{end}}
     
-  /*
+
+/*
+     // ini konsep sendiri yang ditambahakan
       {{$dxinfo := index .Data "dataCheck"}}
 
       {{if eq $dxinfo.StatusExist true}}
