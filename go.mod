@@ -15,4 +15,7 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5
 )
 
-require github.com/nitishm/go-rejson/v4 v4.1.0 // indirect
+require (
+	github.com/go-sql-driver/mysql v1.7.1 // indirect
+	github.com/nitishm/go-rejson/v4 v4.1.0 // indirect
+)
