@@ -37,7 +37,7 @@ func main() {
 	session.Cookie.SameSite = http.SameSiteLaxMode
 	session.Cookie.Secure = app.InProduction
 
-	/* SIMPAN sessionmanager KE config.AppConfig */
+	/* SIMPAN session KE config.AppConfig */
 	app.Session = session
 
 	/* pelajari ini dengan baik karena dengan dua fungsi ini Penggunaan SESSION berhasil */
