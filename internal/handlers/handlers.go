@@ -53,6 +53,9 @@ func ViewTemplate(maintemplate string) (*template.Template, error) {
 
 func (m *Repository) HandleHome(w http.ResponseWriter, r *http.Request) {
 	//get session
+	remoteIP := r.RemoteAddr
+	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
+
 	mytemplate, _ = ViewTemplate("templates/home.page.sakur")
 
 	var emptydatacheck model.DataCheckAvailability
@@ -64,7 +67,7 @@ func (m *Repository) HandleHome(w http.ResponseWriter, r *http.Request) {
 		Data: data,
 	}, r)
 
-	fmt.Println(data)
+	//fmt.Println(data)
 
 	err := mytemplate.Execute(w, td) // awalnya sya tidak pake, dan pake nil
 	if err != nil {
@@ -74,9 +77,18 @@ func (m *Repository) HandleHome(w http.ResponseWriter, r *http.Request) {
 
 func (m *Repository) HandleAbout(w http.ResponseWriter, r *http.Request) {
 
+	stringMap := make(map[string]string)
+	stringMap["test"] = "Hello, again."
+
+	remoteIP := m.App.Session.GetString(r.Context(), "remote_ip")
+
 	mytemplate, _ = ViewTemplate("templates/about.page.sakur")
 
-	td := render.AddDefaultData(&model.TemplateData{}, r)
+	stringMap["remote_ip"] = remoteIP
+
+	td := render.AddDefaultData(&model.TemplateData{
+		StringMap: stringMap,
+	}, r)
 	err := mytemplate.Execute(w, td) // awlanya saya pake nil
 	if err != nil {
 		log.Println(err)
