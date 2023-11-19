@@ -30,5 +30,5 @@ func NoSurf(next http.Handler) http.Handler {
 
 // SessionLoad loads and serves the session on every request
 func SessionLoad(next http.Handler) http.Handler {
-	return sessionmanager.LoadAndSave(next)
+	return session.LoadAndSave(next)
 }
