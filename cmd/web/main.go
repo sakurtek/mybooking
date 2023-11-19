@@ -19,7 +19,7 @@ const portNumber = ":2102"
 
 // untuk mendefiniskan variabel confit.AppConfig
 var app config.AppConfig
-var sessionmanager *scs.SessionManager
+var session *scs.SessionManager
 
 func main() {
 	// registserasi session
@@ -31,14 +31,14 @@ func main() {
 	// UBAH INI MENJADI -TRUE- APABILA PRODUKSI ATAU SUDAH MAU DI DEPLOY KE SERVER
 	app.InProduction = false
 
-	sessionmanager = scs.New()
-	sessionmanager.Lifetime = 24 * time.Hour
-	sessionmanager.Cookie.Persist = true
-	sessionmanager.Cookie.SameSite = http.SameSiteLaxMode
-	sessionmanager.Cookie.Secure = app.InProduction
+	session = scs.New()
+	session.Lifetime = 24 * time.Hour
+	session.Cookie.Persist = true
+	session.Cookie.SameSite = http.SameSiteLaxMode
+	session.Cookie.Secure = app.InProduction
 
 	/* SIMPAN sessionmanager KE config.AppConfig */
-	app.Session = sessionmanager
+	app.Session = session
 
 	/* pelajari ini dengan baik karena dengan dua fungsi ini Penggunaan SESSION berhasil */
 	// Penting ini----
